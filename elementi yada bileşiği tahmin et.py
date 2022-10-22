@@ -34,8 +34,8 @@ hangisini seçiyorsun?
 """
 
 def init():
-	global bileşik_yaygın,sembolik_bitti
-	if soru_türü == "sembolik": bileşik_yaygın = True
+	global bileşik_bitti,sembolik_bitti
+	if soru_türü == "sembolik": bileşik_bitti = True
 	if soru_türü == "bileşik":  sembolik_bitti = True
 
 def str_to_list(string):
