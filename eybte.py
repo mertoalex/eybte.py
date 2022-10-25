@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+#old name: elementi yada bileşiği tahmin et.py
 from random import randint as ri
 
 puan, soru = (0,0)
