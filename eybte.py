@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #old name: elementi yada bileşiği tahmin et.py
+
 from random import randint as ri
 
 puan, soru = (0,0)
@@ -10,7 +11,7 @@ hayır = False
 sor = evet #oyun modunu sorması için
 
 sembolik = ['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Cr','Mn','Fe','Co','Ni','Cu','Zn','Br','Ag','Sn','I','Ba','Pt','Au','Hg','Pb']
-sembolik_yaygın = ['hidrojen','helyum','lityum','berilyum','bor','karbon','azot','oksijen','flor','neon','sodyum','magnezyum','alüminyum','silisyum','fosfor','kükürt','klor','argon','potasyum','kalsiyum','krom','mangan','demir','kobalt','nikel','bakır','çinko','brom','gümüş','kalay','iyot','baryum','platin','altın','cıva / civa','kurşun']
+sembolik_yaygın = ['hidrojen','helyum','lityum','berilyum','bor','karbon','azot / nitrojen','oksijen','flor','neon','sodyum','magnezyum','alüminyum','silisyum','fosfor','kükürt','klor','argon','potasyum','kalsiyum','krom','mangan','demir','kobalt','nikel','bakır','çinko','brom','gümüş','kalay','iyot','baryum','platin','altın','cıva / civa','kurşun']
 
 bileşik = ['H2O','HCl','H2SO4','HNO3','CH3COOH','CaCO3','NaHCO3','NH3','Ca(OH)2','NaOH','KOH','CaO','NaCl']
 bileşik_yaygın = ['su','tuz ruhu / hidroklorik asit','zaç yağı / sülfürik asit','kezzap / nitrik asit','asetik asit / sirke asidi / sirke ruhu','kireç taşı','yemek sodası / sodyum bikarbonat / kabartma tozu','amonyak','sönmüş kireç / kalsiyum hidroksit','sud kostik / sodyum hidroksit','potas kostik / potasyum hidroksit / potasyum hidrat','sönmemiş kireç / kalsiyum oksit','yemek tuzu / sodyum klorür / sofra tuzu / tuz']
