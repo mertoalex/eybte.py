@@ -141,7 +141,7 @@ def __soru_siralamasi_sor():
 		oyun()
 	elif f"{user_cevap}" == '':
 		printing = document.createElement('p')
-		printing.innerText = f"bir şey yılmadı, default olarak soru türü\"{sazoru_sıralaması}\" olarak seçildi.\n\n"
+		printing.innerText = f"bir şey yılmadı, default olarak soru türü\"{soru_sıralaması}\" olarak seçildi.\n\n"
 		document.getElementById("output").append(printing)
 		printing = None
 		js.window.scrollTo(0,js.document.body.scrollHeight)
