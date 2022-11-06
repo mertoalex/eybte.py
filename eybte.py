@@ -10,8 +10,8 @@ hayır = False
 
 sor = evet #oyun modunu sorması için
 
-sembolik = ['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Cr','Mn','Fe','Co','Ni','Cu','Zn','Br','Ag','Sn','I','Ba','Pt','Au','Hg','Pb']
-sembolik_yaygın = ['hidrojen','helyum','lityum','berilyum','bor','karbon','azot / nitrojen','oksijen','flor','neon','sodyum','magnezyum','alüminyum','silisyum','fosfor','kükürt','klor','argon','potasyum','kalsiyum','krom','mangan','demir','kobalt','nikel','bakır','çinko','brom','gümüş','kalay','iyot','baryum','platin','altın','cıva / civa','kurşun']
+sembolik = ['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Rb','Sr','Y','Zr','Nb','Mo','Tc','Ru','Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Xe','Cs','Ba','Hf','Ta','W','Re','Os','Ir','Pt','Au','Hg','Tl','Pb']
+sembolik_yaygın = ['hidrojen','helyum','lityum','berilyum','bor','karbon','azot / nitrojen','oksijen','flor','neon','sodyum','magnezyum','alüminyum','silisyum','fosfor','kükürt','klor','argon','potasyum','kalsiyum','skandiyum','titanyum / titan','vanadyum','krom','mangan / manganez','demir','kobalt','nikel','bakır','çinko','galyum','germanyum','arsenik','selenyum','brom','kripton','rubidyum','stronsiyum','itriyum','zirkonyum','niyobyum','molibden','teknetyum','rutenyum','rodyum','paladyum','gümüş','kadmiyum','indiyum','kalay','antimon','tellur','iyot','Ksenon','sezyum','baryum','hafniyum','tantal','tungsten','renyum','osmiyum','iridyum','platin','altın','cıva / civa','Talyum','kurşun']
 
 bileşik = ['H2O','HCl','H2SO4','HNO3','CH3COOH','CaCO3','NaHCO3','NH3','Ca(OH)2','NaOH','KOH','CaO','NaCl']
 bileşik_yaygın = ['su','tuz ruhu / hidroklorik asit','zaç yağı / sülfürik asit','kezzap / nitrik asit','asetik asit / sirke asidi / sirke ruhu','kireç taşı','yemek sodası / sodyum bikarbonat / kabartma tozu','amonyak','sönmüş kireç / kalsiyum hidroksit','sud kostik / sodyum hidroksit','potas kostik / potasyum hidroksit / potasyum hidrat','sönmemiş kireç / kalsiyum oksit','yemek tuzu / sodyum klorür / sofra tuzu / tuz']
