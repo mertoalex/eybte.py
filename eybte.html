@@ -3,13 +3,15 @@
   <head>
 	<meta charset="utf-8" />
 	<title>elementi (yada bileşiği) tahmin et.py</title>
-	<link rel="stylesheet" href="./pyscript/pyscript.css" />
-	<script defer src="./pyscript/pyscript.js"></script>
+	<link rel="stylesheet" href="./lib/pyscript.css" />
+	<script defer src="./lib/pyscript.js"></script>
+	<!--link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+	<script defer src="https://pyscript.net/latest/pyscript.min.js"></script--> 
   </head>
   <body>
   <div id="output"></div>
 	<py-script>
-import js
+from js import document
 from random import randint as ri
 
 puan, soru = (0,0)
