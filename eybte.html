@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="utf-8" />
+	<title>elementi (yada bileşiği) tahmin et.py</title>
+	<link rel="stylesheet" href="./lib/pyscript.css" />
+	<script defer src="./lib/pyscript.js"></script>
+	<!--link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+	<script defer src="https://pyscript.net/latest/pyscript.min.js"></script--> 
+  </head>
+  <body>
+  <div id="output"></div>
+	<py-script>
+from js import document
+from random import randint as ri
+
+puan, soru = (0,0)
+
+evet = True
+hayır = False
+
+sor = evet #oyun modunu sorması için
+
+## basic mode
+sembolik = ['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Cr','Mn','Fe','Co','Ni','Cu','Zn','Br','Ag','Sn','I','Ba','Pt','Au','Hg','Pb']
+sembolik_yaygın = ['hidrojen','helyum','lityum','berilyum','bor','karbon','azot / nitrojen','oksijen','flor','neon','sodyum','magnezyum','alüminyum','silisyum','fosfor','kükürt','klor','argon','potasyum','kalsiyum','krom','mangan','demir','kobalt','nikel','bakır','çinko','brom','gümüş','kalay','iyot','baryum','platin','altın','cıva / civa','kurşun']
+
+## hard mode
+#sembolik = ['H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Rb','Sr','Y','Zr','Nb','Mo','Tc','Ru','Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Xe','Cs','Ba','Hf','Ta','W','Re','Os','Ir','Pt','Au','Hg','Tl','Pb']
+#sembolik_yaygin = ['hidrojen','helyum','lityum','berilyum','bor','karbon','azot / nitrojen','oksijen','flor','neon','sodyum','magnezyum','alüminyum','silisyum','fosfor','kükürt','klor','argon','potasyum','kalsiyum','skandiyum','titanyum / titan','vanadyum','krom','mangan / manganez','demir','kobalt','nikel','bakır','çinko','galyum','germanyum','arsenik','selenyum','brom','kripton','rubidyum','stronsiyum','itriyum','zirkonyum','niyobyum','molibden','teknetyum','rutenyum','rodyum','paladyum','gümüş','kadmiyum','indiyum','kalay','antimon','tellur','iyot','Ksenon','sezyum','baryum','hafniyum','tantal','tungsten','renyum','osmiyum','iridyum','platin','altın','cıva / civa','Talyum','kurşun']
+
+bileşik = ['H2O','HCl','H2SO4','HNO3','CH3COOH','CaCO3','NaHCO3','NH3','Ca(OH)2','NaOH','KOH','CaO','NaCl']
+bileşik_yaygın = ['su','tuz ruhu / hidroklorik asit','zaç yağı / sülfürik asit','kezzap / nitrik asit','asetik asit / sirke asidi / sirke ruhu','kireç taşı','yemek sodası / sodyum bikarbonat / kabartma tozu','amonyak','sönmüş kireç / kalsiyum hidroksit','sud kostik / sodyum hidroksit','potas kostik / potasyum hidroksit / potasyum hidrat','sönmemiş kireç / kalsiyum oksit','yemek tuzu / sodyum klorür / sofra tuzu / tuz']
+
+bileşik_bitti, sembolik_bitti = (False, False)
+
+soru_türü = "random"
+soru_türü_açıklaması = """3 soru türü var, bu soru türleri;
+random\t = altdakkilerden birini sorar (her seferinde değişir)
+sembolik = sembollerden sorar (C, O, H gibi)
+bileşik\t = bileşiklerden sorar (H2O gibi)
+hangisini seçiyorsun?
+"""
+
+soru_sıralaması = "random"
+soru_sıralaması_açıklaması = """3 soru sıralaması var, bu soru sıralamaları;
+random\t = altdakilerden birini yapar (her seferinde değişir)
+yaygın\t = yaygın sorup sembolik halini cevap olarak ister ("hidroklorik asit" cevap: HCI gibi)
+sembolik = sembolik sorup yaygın halini cevap olarak ister (HCI cevap: "hidroklorik asit" gibi)
+hangisini seçiyorsun? 
+"""
+
+def init():
+	global bileşik_bitti,sembolik_bitti
+	if soru_türü == "sembolik": bileşik_bitti = True
+	if soru_türü == "bileşik": sembolik_bitti = True
+	
+def str_to_list(stringforbelist): return stringforbelist.split(sep = None, maxsplit = 0)
+
+soru_turu_sorulmus = False
+def	soru_turu_sor():
+	global soru_turu_sorulmus
+	
+	if not soru_turu_sorulmus:
+		printing = document.createElement('p')
+		printing.innerText = soru_türü_açıklaması
+		document.getElementById("output").append(printing)
+		printing = None
+		js.window.scrollTo(0,js.document.body.scrollHeight)
+		soru_turu_sorulmus = True
+
+	printing = document.createElement('p')
+	printing.innerHTML = '<id id="input">$ <input id="user_cevap" class="py-input" type="text"/><button id="enter" class="py-button" type="submit">✅</button></id>'
+	document.getElementById("output").append(printing)
+	printing = None
+	js.window.scrollTo(0,js.document.body.scrollHeight)
+	Element("enter").element.onclick = (lambda _: __soru_turu_sor())
+
+def __soru_turu_sor():
+	global soru_türü
+	
+	user_cevap = Element("user_cevap").element.value.casefold()
+	Element("user_cevap").element.outerHTML = ""
+	Element("enter").element.outerHTML = ""
+	Element("input").element.outerHTML = ""
+
+	printing = document.createElement('p')
+	printing.innerText = ("$ " + user_cevap + "\n\n")
+	document.getElementById("output").append(printing)
+	printing = None
+	js.window.scrollTo(0,js.document.body.scrollHeight)
+	
+	if user_cevap == "random" or user_cevap == "sembolik" or user_cevap == "bileşik":
+		soru_türü = user_cevap
+		soru_siralamasi_sor()
+	elif f"{user_cevap}" == '':
+		printing = document.createElement('p')
+		printing.innerText = f"bir şey yazılmadı, default olarak soru türü\"{soru_türü}\" olarak seçildi.\n\n"
+		document.getElementById("output").append(printing)
+		printing = None
+		js.window.scrollTo(0,js.document.body.scrollHeight)
+		soru_siralamasi_sor()
+	else:
+		printing = document.createElement('p')
+		printing.innerText = f"\"{user_cevap}\" bir soru türü değil, sadece \"random\", \"sembolik\" ve\"bileşik\" yazmanız lazım."
+		document.getElementById("output").append(printing)
+		printing = None
+		js.window.scrollTo(0,js.document.body.scrollHeight)
+		soru_turu_sor()
+		
+soru_siralamasi_sorulmus = False
+def soru_siralamasi_sor():
+	global soru_siralamasi_sorulmus
+	
+	if not soru_siralamasi_sorulmus:
+		printing = document.createElement('p')
+		printing.innerText = soru_sıralaması_açıklaması
+		document.getElementById("output").append(printing)
+		printing = None
+		js.window.scrollTo(0,js.document.body.scrollHeight)
+		soru_siralamasi_sorulmus = True
+	
+	printing = document.createElement('p')
+	printing.innerHTML = '<id id="input">$ <input id="user_cevap" class="py-input" type="text"/><button id="enter" class="py-button" type="submit">✅</button></id>'
+	document.getElementById("output").append(printing)
+	printing = None
+	js.window.scrollTo(0,js.document.body.scrollHeight)
+	
+	Element("enter").element.onclick = (lambda _: __soru_siralamasi_sor())
+
+def __soru_siralamasi_sor():
+	global soru_sıralaması
+	
+	user_cevap = Element("user_cevap").element.value.casefold()
+	Element("user_cevap").element.outerHTML = ""
+	Element("enter").element.outerHTML = ""
+	Element("input").element.outerHTML = ""
+
+	printing = document.createElement('p')
+	printing.innerText = ("$ " + user_cevap + "\n\n")
+	document.getElementById("output").append(printing)
+	printing = None
+	js.window.scrollTo(0,js.document.body.scrollHeight)
+	
+	if user_cevap == "random" or user_cevap == "yaygın" or user_cevap == "sembolik":
+		soru_sıralaması = user_cevap
+		init()
+		oyun()
+	elif f"{user_cevap}" == '':
+		printing = document.createElement('p')
+		printing.innerText = f"bir şey yılmadı, default olarak soru türü\"{soru_sıralaması}\" olarak seçildi.\n\n"
+		document.getElementById("output").append(printing)
+		printing = None
+		js.window.scrollTo(0,js.document.body.scrollHeight)
+		init()
+		oyun()
+	else:
+		printing = document.createElement('p')
+		printing.innerText = f"\"{user_cevap}\" bir soru sıralaması değil, sadece \"random\",\"yaygın\" veya \"sembolik\" yazmanız lazım."
+		document.getElementById("output").append(printing)
+		printing = None
+		js.window.scrollTo(0,js.document.body.scrollHeight)
+		soru_siralamasi_sor()
+
+def oyun():
+	global soru, bileşik_bitti, sembolik_bitti
+	isimmi = False
+	
+	if len(sembolik_yaygın) <= 0: sembolik_bitti = True
+	if len(bileşik_yaygın) <= 0: bileşik_bitti = True
+	
+	if soru_türü == "random":
+		random_int = ri(0, 1)
+
+		if not bileşik_bitti and random_int == 0:
+			sor = ri(0, len(bileşik_yaygın) - 1)
+			first,second = (bileşik_yaygın[sor],bileşik[sor])
+
+		if not sembolik_bitti and random_int == 1:
+			sor = ri(0, len(sembolik_yaygın) - 1)
+			first,second = sembolik_yaygın[sor],sembolik[sor]
+
+	if not bileşik_bitti and soru_türü == "bileşik":
+		sor = ri(0, len(bileşik_yaygın) - 1)
+		first,second = bileşik_yaygın[sor],bileşik[sor]
+	
+	if not sembolik_bitti and soru_türü == "sembolik":
+		sor = ri(0, len(sembolik_yaygın) - 1)
+		first,second = sembolik_yaygın[sor],sembolik[sor]
+
+	if bileşik_bitti and sembolik_bitti:
+		printing = document.createElement('p')
+		printing.innerText = f"puanın: {puan}\noyunu oynadığınız için teşekkürler, umarım ezberlemenizde yardımcı olmuşumdur ve umarım eğlenmişsinizdir."
+		document.getElementById("output").append(printing)
+		printing = None
+		js.window.scrollTo(0,js.document.body.scrollHeight)
+		exit(0)
+	
+	if soru_sıralaması == "random":
+		random_int = ri(0, 1)
+		
+		if random_int == 0:
+			başlık = first
+			cevap = second
+	
+		if random_int == 1:
+			başlık = second
+			cevap = first
+			isimmi = True
+	
+	elif soru_sıralaması == "yaygın":
+		başlık = first
+		cevap = second
+		
+	elif soru_sıralaması == "sembolik":
+		başlık = second
+		cevap = first
+		isimmi = True
+	
+	else:
+		printing = document.createElement('p')
+		printing.innerText = f"\"{soru_sıralaması}\" diye bir soru sıralaması bulunamadı. geçerli soru sıralamaları: random, yaygın, sembolik(hepsinin açıklaması kaynak kodda)"
+		document.getElementById("output").append(printing)
+		printing = None
+		js.window.scrollTo(0,js.document.body.scrollHeight)
+		exit(1)
+		
+	if ' / ' in cevap: cevap = cevap.split(' / ')
+	if not isinstance(cevap, list): cevap = str_to_list(cevap)
+	soru += 1
+	
+	printing = document.createElement('p')
+	printing.innerText = f"puanın: {puan}\n{soru}) {başlık}" #for debug: (çaktırma cevap: {cevap})"
+	document.getElementById("output").append(printing)
+	printing = None
+	js.window.scrollTo(0,js.document.body.scrollHeight) #user_cevap = input() or '**boş girildi**'
+	
+	printing = document.createElement('p')
+	printing.innerHTML = '<id id="input">$ <input id="user_cevap" class="py-input" type="text"/><button id="enter" class="py-button" type="submit">✅</button></id>'
+	document.getElementById("output").append(printing)
+	printing = None
+	js.window.scrollTo(0,js.document.body.scrollHeight)
+	Element("enter").element.onclick = (lambda _: __tahmin(cevap, isimmi))
+	
+def __tahmin(cevap, isimmi):
+	global puan
+	
+	user_cevap = Element("user_cevap").element.value
+	Element("user_cevap").element.outerHTML = ""
+	Element("enter").element.outerHTML = ""
+	Element("input").element.outerHTML = ""
+
+	printing = document.createElement('p')
+	printing.innerText = ("$ " + user_cevap + "\n\n")
+	document.getElementById("output").append(printing)
+	printing = None
+	js.window.scrollTo(0,js.document.body.scrollHeight)
+	
+	if isimmi: user_cevap = user_cevap.casefold()
+	
+	if user_cevap in cevap:
+		printing = document.createElement('p')
+		printing.innerText = f"afferim, doğru cevap!(+10 puan)" #for debug: ({user_cevap} == {cevap} | isimmi = {isimmi})"
+		document.getElementById("output").append(printing)
+		printing = None
+		puan += 10
+		js.window.scrollTo(0,js.document.body.scrollHeight)
+		oyun()
+	elif user_cevap.casefold() in ["exit", "çık", "çıkış"]:
+		printing = document.createElement('p')
+		printing.innerText = "oynadığın için teşekkür ederim, görüşürüz.👋"
+		document.getElementById("output").append(printing)
+		printing = None
+		js.window.scrollTo(0,js.document.body.scrollHeight)
+		exit(0)
+	elif puan <= 0:
+		printing = document.createElement('p')
+		printing.innerText = f"üzgünüm, yanlış cevap." #for debug: ({user_cevap} != {cevap} | isimmi = {isimmi})"
+		document.getElementById("output").append(printing)
+		printing = None
+		js.window.scrollTo(0,js.document.body.scrollHeight)
+		oyun()
+	else:
+		printing = document.createElement('p')
+		printing.innerText = f"üzgünüm, yanlış cevap(-5 puan)" #for debug: ({user_cevap} != {cevap} | isimmi = {isimmi})"
+		document.getElementById("output").append(printing)
+		printing = None
+		puan -= 5
+		js.window.scrollTo(0,js.document.body.scrollHeight)
+		oyun()
+if __name__ == '__main__':
+	if sor: soru_turu_sor()
+	else: oyun()
+	</py-script>
+  </body>
+</html>
